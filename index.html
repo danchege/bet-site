@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStake - Sports Betting (Educational)</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">SMART<span>STAKE</span></a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="live.html"><i class="fas fa-bolt"></i> Live</a></li>
+                    <li><a href="upcoming.html"><i class="far fa-calendar-alt"></i> Upcoming</a></li>
+                    <li><a href="#"><i class="fas fa-trophy"></i> Sports</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <button id="login-btn" class="btn btn-login"><i class="fas fa-user"></i> Login</button>
+                <button id="register-btn" class="btn btn-register">Register</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Smart Sports Betting</h1>
+            <p>Educational platform for sports betting concepts</p>
+            <div class="cta-buttons">
+                <a href="live.html" class="btn btn-primary">View Live Matches</a>
+                <a href="upcoming.html" class="btn btn-secondary">Upcoming Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Matches -->
+    <section class="featured-matches">
+        <div class="container">
+            <h2><i class="fas fa-star"></i> Featured Matches</h2>
+            <div class="matches-grid" id="featured-matches">
+                <!-- JS will populate this -->
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sports Categories -->
+    <section class="sports-categories">
+        <div class="container">
+            <h2><i class="fas fa-list"></i> Sports Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card" onclick="loadSport('football')">
+                    <i class="fas fa-futbol"></i>
+                    <h3>Football</h3>
+                </div>
+                <div class="category-card" onclick="loadSport('basketball')">
+                    <i class="fas fa-basketball-ball"></i>
+                    <h3>Basketball</h3>
+                </div>
+                <div class="category-card" onclick="loadSport('tennis')">
+                    <i class="fas fa-table-tennis"></i>
+                    <h3>Tennis</h3>
+                </div>
+                <div class="category-card" onclick="loadSport('hockey')">
+                    <i class="fas fa-hockey-puck"></i>
+                    <h3>Hockey</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bet Slip (Fixed at bottom) -->
+    <div class="bet-slip-container">
+        <div class="bet-slip-header">
+            <h3><i class="fas fa-ticket-alt"></i> Bet Slip <span id="bet-count">0</span></h3>
+            <button id="toggle-slip"><i class="fas fa-chevron-up"></i></button>
+        </div>
+        <div class="bet-slip-content" id="bet-slip-content">
+            <p class="empty-slip">Your bet slip is empty</p>
+        </div>
+        <div class="bet-slip-actions">
+            <input type="number" placeholder="Enter stake" id="stake-amount">
+            <div class="potential-win">
+                Potential Win: <span id="potential-win">$0.00</span>
+            </div>
+            <button class="btn btn-place-bet">Place Bet (Demo)</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h4>Sports</h4>
+                    <ul>
+                        <li><a href="#">Football</a></li>
+                        <li><a href="#">Basketball</a></li>
+                        <li><a href="#">Tennis</a></li>
+                        <li><a href="#">More...</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Responsible Gaming</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                <p><strong>DISCLAIMER:</strong> This is an educational project only. No real money betting is available on this platform.</p>
+                <p>© 2023 SmartStake Educational Project. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Login to Your Account</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <p class="modal-footer-text">Don't have an account? <a href="#" id="show-register">Register</a></p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="api/football.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const result = await AuthService.login(email, password);
+            if (result.success) {
+                alert(`Welcome, ${result.user.name}!`);
+                // Update UI with user info
+            } else {
+                alert(result.message);
+            }
+        });
+    </script>
+</body>
+</html>
